@@ -1,7 +1,12 @@
 package routes
 
-import "net/http"
+import (
+	"github.com/gorilla/mux"
+)
 
-func HomeHandler(w http.ResponseWriter, r *http.Request){
-	w.Write([]byte("Hello World"))
+func NewRouter() *mux.Router {
+    r := mux.NewRouter()
+    AddUsersRoutes(r)
+	AddTasksRoutes(r)
+    return r
 }
