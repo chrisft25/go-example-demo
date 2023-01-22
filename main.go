@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/chrisft25/go-example-demo/db"
@@ -13,12 +14,15 @@ import (
 
 func main() {
 
-	db.DBConnection(helpers.GetEnv("DATABASE_CONNECTION_STRING"))
+	dbString := helpers.GetEnv("DATABASE_CONNECTION_STRING","")
+	db.DBConnection(dbString)
 
 	db.DB.AutoMigrate(models.Task{})
 	db.DB.AutoMigrate(models.User{})
 
 	router := routes.NewRouter()
 
-	http.ListenAndServe(":3000", router)
+	port := helpers.GetEnv("PORT", "3000")
+
+	http.ListenAndServe(fmt.Sprintf(":%v", port), router)
 }

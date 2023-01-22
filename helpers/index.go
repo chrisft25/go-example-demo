@@ -7,7 +7,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func GetEnv(key string) string {
+func GetEnv(key, fallback string) string {
 
 	// load .env file
 	err := godotenv.Load()
@@ -15,6 +15,12 @@ func GetEnv(key string) string {
 	if err != nil {
 	  log.Fatalf("Error loading .env file")
 	}
+
+	value := os.Getenv(key)
+
+	if len(value) == 0 {
+        return fallback
+    }
   
-	return os.Getenv(key)
+	return value
 }
